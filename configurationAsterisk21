@@ -1,28 +1,21 @@
+#!/bin/bash
+
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 setenforce 0
-dnf install php82-release # 82 - version php, can changes if need other version 
-dnf clean all && dnf makecache 
-dnf install wget php php-mysqlnd php-pear php-cgi php-common php-curl php-mbstring php-gd php-gettext php-bcmath php-zip php-xml php-imap php-json php-process php-snmp -y
-dnf install httpd wget yum sox mariadb mariadb-server -y
+dnf install nano wget yum sox -y
 curl -sL https://rpm.nodesource.com/setup_18.x | bash -
 dnf install gcc-c++ make nodejs -y
-useradd -m asterisk
-systemctl start mariadb && systemctl enable mariadb
-mysql -u root # you need create password use command: set password = password("1");
-systemctl start httpd && systemctl enable httpd 
-wget https://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-21.9.1.tar.gz 
-#All available versions can be viewed at the link: https://downloads.asterisk.org/pub/telephony/asterisk/releases/
+wget https://downloads.asterisk.org/pub/telephony/asterisk/releases/asterisk-21.9.1.tar.gz
 tar zxvf asterisk-*.tar.gz
-cd asterisk-21.9.1/ #21.9.1 - changes on version dependency
+cd asterisk-21.9.1/
 contrib/scripts/install_prereq install
 contrib/scripts/get_mp3_source.sh
 ./configure --with-pjproject-bundled --with-jansson-bundled --with-crypto --with-ssl=ssl --with-srtp
 make menuselect
 make && make install && make config && make samples && ldconfig
+useradd -m asterisk
 sed -i 's/ASTARGS=""/ASTARGS="-U asterisk"/g' /usr/sbin/safe_asterisk
 chown asterisk:asterisk /var/run/asterisk
 chown -R asterisk:asterisk /etc/asterisk
 chown -R asterisk:asterisk /var/{lib,log,spool}/asterisk
 chown -R asterisk:asterisk /usr/lib/asterisk
-reboot
-systemctl status asterisk # If need use: systemctl start asterisk
