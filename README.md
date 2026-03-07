@@ -2,6 +2,8 @@
 
 Instruction for install Asterisk + FreePBX on RedOS 8 (also Fedora)
 
+Warning ! Attention ! Maximum protect you voip server otherwise you lose many money !
+
 After all install need reboot server
 
 --------------------------------------------
