@@ -6,6 +6,14 @@ After all install need reboot server
 
 --------------------------------------------
 
+If you being install Asterisk and FreePBX to need install Asterisk and after reboot system. 
+
+Next check status asterisk command: systemctl status asterisk .
+
+If answser "active(running)" to install FreePBX.
+
+--------------------------------------------
+
 If you have error "core" use command: fwconsole ma install core && fwconsole ma upgradeall
 
 --------------------------------------------
