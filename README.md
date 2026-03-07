@@ -31,4 +31,8 @@ yum install iptables-services -y && systemctl start iptables && systemctl enable
 
 --------------------------------------------
 
+For correct work calls, you need in web interfaces open "Settings" -> "Asterisk Sip Settings" -> "Local Networks" enter you net in example format "192.168.4.0/24" or "192.168.0.0/16".
+
+--------------------------------------------
+
 For call need sip phone OR For Windows recommend microsip OR for linux recommend zoiper. 
