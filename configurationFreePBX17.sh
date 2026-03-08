@@ -1,19 +1,28 @@
+#!/bin/bash
+
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 setenforce 0
+
 dnf install php82-release -y
 dnf clean all && dnf makecache 
 dnf install wget php php-mysqlnd php-pear php-cgi php-common php-curl php-mbstring php-gd php-gettext php-bcmath php-zip php-xml php-imap php-json php-process php-snmp -y
-dnf install httpd nano wget yum sox mariadb mariadb-server -y
+dnf install httpd nano wget yum sox -y
+dnf install mariadb mariadb-server --allowerasing -y
+
 curl -sL https://rpm.nodesource.com/setup_18.x | bash -
 dnf install gcc-c++ make nodejs -y
+
 systemctl start mariadb && systemctl enable mariadb
 mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('1');"
+
 systemctl start httpd && systemctl enable httpd 
+
 wget http://mirror.freepbx.org/modules/packages/freepbx/freepbx-17.0-latest.tgz
 tar xvfz freepbx-*.tgz
 cd freepbx
 ./start_asterisk start
 ./install -n # ./install -n --dbuser root --dbpass 1 --webroot=/var/www/html
+
 fwconsole ma downloadinstall pm2
 fwconsole ma downloadinstall cdr
 fwconsole ma downloadinstall logfiles
@@ -28,6 +37,7 @@ fwconsole ma install core
 fwconsole ma upgradeall
 systemctl stop httpd php-fpm
 fwconsole stop 2>/dev/null
+
 rm -rf /var/lib/php/session/* /var/lib/php/wsdlcache/* 2>/dev/null
 mkdir -p /var/lib/php/session /var/lib/php/wsdlcache
 chown -R asterisk:asterisk /var/lib/php/session /var/lib/php/wsdlcache
