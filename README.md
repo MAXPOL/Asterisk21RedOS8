@@ -1,4 +1,4 @@
-# Asterisk21RedOS8
+# Asterisk21RedOS8(Fedora)
 
 Instruction for install Asterisk + FreePBX on RedOS 8 (also Fedora)
 
